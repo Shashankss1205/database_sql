@@ -1,6 +1,6 @@
 #include <iostream>
 #include <sqlite3.h>
-#include"utilities.hpp"
+#include "utilities.hpp"
 
 int main() {
     sqlite3* db = open_database("archive.db");
@@ -9,16 +9,16 @@ int main() {
     const char *sql_create_aHeader = R"(
     CREATE TABLE IF NOT EXISTS aHeader (
         PK INTEGER PRIMARY KEY,
-        SK_hash TEXT,
-        flags INTEGER,
-        height INTEGER,
-        mtp INTEGER,
-        header_FK INTEGER,
-        version INTEGER,
-        time INTEGER,
-        bits INTEGER,
-        nonce INTEGER,
-        merkle_root TEXT
+        SK_hash CHAR(32), -- 32 bytes number
+        flags INTEGER, -- 32 bit
+        height INTEGER, -- PK
+        mtp INTEGER, -- 32 bit
+        header_FK INTEGER, -- PK
+        version INTEGER, -- 32 bit
+        time INTEGER, -- 32 bit
+        bits INTEGER, -- 32 bit
+        nonce INTEGER, -- 32 bit
+        merkle_root INTEGER -- 32 bytes
     );
     )";
 
@@ -34,15 +34,15 @@ int main() {
     const char *sql_create_aTransaction = R"(
     CREATE TABLE IF NOT EXISTS aTransaction (
         PK INTEGER PRIMARY KEY,
-        SK_hash TEXT,
-        coinbase TEXT,
-        size INTEGER,
-        weight INTEGER,
-        locktime INTEGER,
-        version INTEGER,
-        input_count INTEGER,
+        SK_hash CHAR(32), -- 32 bytes hash, indexing basis
+        coinbase BOOLEAN, -- boolean
+        size INTEGER, -- 32 bit int
+        weight INTEGER, -- 32 bit int
+        locktime INTEGER, -- 32 bit int
+        version INTEGER, -- 32 bit int
+        input_count INTEGER, -- 16 bits/32 bits
         inputs_FK INTEGER,
-        output_count INTEGER,
+        output_count INTEGER, -- 16 bits/32 bits
         outputs_FK INTEGER,
         FOREIGN KEY (inputs_FK) REFERENCES aInput(PK),
         FOREIGN KEY (outputs_FK) REFERENCES aOutput(PK)
@@ -59,16 +59,16 @@ int main() {
 
     const char *sql_create_aInput = R"(
     CREATE TABLE IF NOT EXISTS aInput (
-        PK INTEGER PRIMARY KEY,
-        SK_index INTEGER,
-        SK_point_FK INTEGER,
-        transaction_FK INTEGER,
-        indx INTEGER,
-        sequence INTEGER,
-        length INTEGER,
-        script TEXT,
-        count INTEGER,
-        witness TEXT,
+        PK INTEGER PRIMARY KEY, -- 32 bit int
+        SK_index INTEGER, -- spend table
+        SK_point_FK INTEGER, 
+        transaction_FK INTEGER, -- indexing
+        index SMALLINT, -- 16 bits
+        sequence INTEGER, -- 32 bits
+        length INTEGER, -- 32 bits / byte len of script
+        script BLOB, -- 1mb
+        count INTEGER, -- stack length 32 bits
+        witness BLOB, -- blob => deserialize => stack
         FOREIGN KEY (SK_point_FK) REFERENCES aPoint(PK),
         FOREIGN KEY (transaction_FK) REFERENCES aTransaction(PK)
     );
@@ -77,7 +77,7 @@ int main() {
     const char *sql_create_aPoint = R"(
     CREATE TABLE IF NOT EXISTS aPoint (
         PK INTEGER PRIMARY KEY,
-        SK_hash TEXT
+        SK_hash CHAR(32) -- 32 bytes hash
     );
     )";
 
@@ -86,9 +86,9 @@ int main() {
         PK INTEGER PRIMARY KEY,
         transaction_FK INTEGER,
         indx INTEGER,
-        value INTEGER,
-        length INTEGER,
-        script TEXT,
+        value BIGINT, -- 64 bit int
+        length INTEGER, -- 32 bits
+        script BLOB, -- 1mb
         FOREIGN KEY (transaction_FK) REFERENCES aTransaction(PK)
     );
     )";
