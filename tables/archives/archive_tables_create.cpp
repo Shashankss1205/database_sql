@@ -63,7 +63,7 @@ int main() {
         SK_index INTEGER, -- spend table
         SK_point_FK INTEGER, 
         transaction_FK INTEGER, -- indexing
-        index SMALLINT, -- 16 bits
+        indx SMALLINT, -- 16 bits
         sequence INTEGER, -- 32 bits
         length INTEGER, -- 32 bits / byte len of script
         script BLOB, -- 1mb
