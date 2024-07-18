@@ -63,7 +63,7 @@ int main() {
         SK_index INTEGER, -- spend table
         SK_point_FK INTEGER, 
         transaction_FK INTEGER, -- indexing
-        indx SMALLINT, -- 16 bits
+        index_ SMALLINT, -- 16 bits
         sequence INTEGER, -- 32 bits
         length INTEGER, -- 32 bits / byte len of script
         script BLOB, -- 1mb
@@ -85,7 +85,7 @@ int main() {
     CREATE TABLE IF NOT EXISTS aOutput (
         PK INTEGER PRIMARY KEY,
         transaction_FK INTEGER,
-        indx INTEGER,
+        index_ INTEGER,
         value BIGINT, -- 64 bit int
         length INTEGER, -- 32 bits
         script BLOB, -- 1mb

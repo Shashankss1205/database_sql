@@ -16,16 +16,16 @@ void insertTestData(sqlite3 *db) {
     executeSQL(db, "INSERT INTO aTransaction (PK, SK_hash, coinbase, size, weight, locktime, version, input_count, inputs_FK, output_count, outputs_FK) VALUES (2, 'txn2_hash', 'coinbase2', 250, 350, 0, 1, 1, 2, 1, 2);");
 
     // Insert test data into aInput table
-    executeSQL(db, "INSERT INTO aInput (PK, SK_index, SK_point_FK, transaction_FK, indx, sequence, length, script, count, witness) VALUES (1, 1, 1, 1, 0, 4294967295, 100, 'input_script1', 1, 'witness_data1');");
-    executeSQL(db, "INSERT INTO aInput (PK, SK_index, SK_point_FK, transaction_FK, indx, sequence, length, script, count, witness) VALUES (2, 2, 2, 2, 0, 4294967294, 150, 'input_script2', 1, 'witness_data2');");
+    executeSQL(db, "INSERT INTO aInput (PK, SK_index, SK_point_FK, transaction_FK, index_, sequence, length, script, count, witness) VALUES (1, 1, 1, 1, 0, 4294967295, 100, 'input_script1', 1, 'witness_data1');");
+    executeSQL(db, "INSERT INTO aInput (PK, SK_index, SK_point_FK, transaction_FK, index_, sequence, length, script, count, witness) VALUES (2, 2, 2, 2, 0, 4294967294, 150, 'input_script2', 1, 'witness_data2');");
 
     // Insert test data into aPoint table
     executeSQL(db, "INSERT INTO aPoint (PK, SK_hash) VALUES (1, 'point1_hash');");
     executeSQL(db, "INSERT INTO aPoint (PK, SK_hash) VALUES (2, 'point2_hash');");
 
     // Insert test data into aOutput table
-    executeSQL(db, "INSERT INTO aOutput (PK, transaction_FK, indx, value, length, script) VALUES (1, 1, 0, 50000, 200, 'output_script1');");
-    executeSQL(db, "INSERT INTO aOutput (PK, transaction_FK, indx, value, length, script) VALUES (2, 2, 0, 75000, 250, 'output_script2');");
+    executeSQL(db, "INSERT INTO aOutput (PK, transaction_FK, index_, value, length, script) VALUES (1, 1, 0, 50000, 200, 'output_script1');");
+    executeSQL(db, "INSERT INTO aOutput (PK, transaction_FK, index_, value, length, script) VALUES (2, 2, 0, 75000, 250, 'output_script2');");
 }
 
 int main(){
